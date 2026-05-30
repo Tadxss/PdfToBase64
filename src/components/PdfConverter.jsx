@@ -44,7 +44,7 @@ export default function PdfConverter() {
 
   // Set page title
   useEffect(() => {
-    document.title = 'PDF ↔ Base64 Converter — Free Online Tool';
+    document.title = 'Free PDF ↔ Base64 Converter — No Upload, No Storage';
   }, []);
 
   // ── encode state ──────────────────────────────────────────────
@@ -186,7 +186,7 @@ export default function PdfConverter() {
           <div className="flex items-center gap-3">
             <FileText className="w-7 h-7 text-blue-400" />
             <div className="text-left">
-              <h1 className="text-xl font-bold text-white leading-tight">PDF ↔ Base64</h1>
+              <h1 className="text-xl font-bold text-white leading-tight">Free PDF ↔ Base64 Converter</h1>
               <p className="text-xs text-slate-400">Your files stay on your device — never uploaded, never stored</p>
             </div>
           </div>
