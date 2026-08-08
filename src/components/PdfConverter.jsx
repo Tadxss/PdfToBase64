@@ -464,7 +464,7 @@ export default function PdfConverter() {
                 <span className="text-lg font-semibold text-slate-200">Developed by</span>
               </div>
               <a
-                href="https://daryltadeo.netlify.app"
+                href="https://daryljohntadeo.space"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xl font-bold text-blue-400 mb-2 hover:text-blue-300 transition-colors inline-block"

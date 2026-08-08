@@ -58,7 +58,7 @@ Files are never uploaded to any server. Messaging must always emphasize this:
 
 ## Shared Identity
 
-- Footer "Daryl John Tadeo" links to `https://daryltadeo.netlify.app/`
+- Footer "Daryl John Tadeo" links to `https://daryljohntadeo.space/`
 - Buy Me a Coffee copy: `"Found this useful? Support the work —"`
 - GA4 ID: `G-P1898N6HT7`
 
