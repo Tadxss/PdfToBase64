@@ -1,4 +1,35 @@
 import { AlertCircle, ArrowRightLeft, Check, Copy, Download, FileX, RefreshCw } from 'lucide-react';
+import { AnimatePresence, motion as Motion } from 'motion/react';
+
+function CopyLabel({ copied }) {
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      {copied ? (
+        <Motion.span
+          key="copied"
+          initial={{ opacity: 0, y: 3 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -3 }}
+          transition={{ duration: 0.12 }}
+          className="flex items-center gap-1.5"
+        >
+          <Check className="w-3.5 h-3.5" /> Copied!
+        </Motion.span>
+      ) : (
+        <Motion.span
+          key="idle"
+          initial={{ opacity: 0, y: 3 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -3 }}
+          transition={{ duration: 0.12 }}
+          className="flex items-center gap-1.5"
+        >
+          <Copy className="w-3.5 h-3.5" /> Copy
+        </Motion.span>
+      )}
+    </AnimatePresence>
+  );
+}
 
 export default function DecodePanel({
   base64Input,
@@ -11,16 +42,16 @@ export default function DecodePanel({
   onReset,
 }) {
   return (
-    <div className="bg-slate-800 rounded-xl shadow-2xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-slate-700 flex items-center justify-between">
+    <div className="bg-inklight border border-inkborder rounded-lg overflow-hidden">
+      <div className="px-5 py-4 border-b border-inkborder flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ArrowRightLeft className="w-4 h-4 text-blue-400" />
-          <span className="font-semibold text-slate-200">Paste Base64</span>
+          <ArrowRightLeft className="w-4 h-4 text-signal" />
+          <span className="font-semibold text-bone">Paste Base64</span>
         </div>
         {base64Input && (
           <button
             onClick={onReset}
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 transition-colors"
+            className="flex items-center gap-1.5 text-xs text-muted hover:text-bone transition-colors"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Clear
           </button>
@@ -30,28 +61,24 @@ export default function DecodePanel({
       <div className="p-5 space-y-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-muted">
               Paste your Base64 string below
               {base64Input
                 ? ` · ${base64Input.replace(/\s/g, '').length.toLocaleString()} chars`
                 : ''}
             </span>
             {base64Input && (
-              <button
+              <Motion.button
+                whileTap={{ scale: 0.94 }}
                 onClick={onCopy}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
                   decodeCopied
-                    ? 'bg-green-600 text-white'
-                    : 'bg-slate-700 hover:bg-slate-600 text-slate-200'
+                    ? 'bg-signal text-ink'
+                    : 'bg-inklight border border-inkborder hover:border-bone/40 text-bone/80'
                 }`}
               >
-                {decodeCopied ? (
-                  <Check className="w-3.5 h-3.5" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5" />
-                )}
-                {decodeCopied ? 'Copied!' : 'Copy'}
-              </button>
+                <CopyLabel copied={decodeCopied} />
+              </Motion.button>
             )}
           </div>
           <textarea
@@ -59,7 +86,7 @@ export default function DecodePanel({
             onChange={(e) => onInputChange(e.target.value)}
             placeholder="Paste Base64 string here (with or without data:application/pdf;base64, prefix)…"
             rows={8}
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 font-mono text-xs text-slate-300 resize-y focus:outline-none focus:border-blue-500 placeholder:text-slate-600 transition-colors"
+            className="w-full bg-ink border border-inkborder rounded-lg p-3 font-body text-xs text-bone/80 resize-y focus:outline-none focus:border-signal/60 placeholder:text-muted/50 transition-colors"
           />
         </div>
 
@@ -70,10 +97,12 @@ export default function DecodePanel({
           </div>
         )}
 
-        <button
+        <Motion.button
+          whileHover={{ y: -1 }}
+          whileTap={{ scale: 0.98 }}
           onClick={onDecode}
           disabled={decodeLoading || !base64Input.trim()}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white font-bold text-sm transition-all shadow-lg shadow-blue-900/30"
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-md bg-signal hover:bg-signal/90 disabled:bg-inkborder disabled:text-muted text-ink font-bold text-sm transition-colors shadow-glow"
         >
           {decodeLoading ? (
             <>
@@ -84,14 +113,14 @@ export default function DecodePanel({
               <Download className="w-4 h-4" /> Download PDF
             </>
           )}
-        </button>
+        </Motion.button>
 
-        <div className="flex items-start gap-2 text-xs text-slate-500">
+        <div className="flex items-start gap-2 text-xs text-muted">
           <FileX className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
           <span>
             Accepts raw Base64 or strings with the{' '}
-            <code className="font-mono">data:application/pdf;base64,</code> prefix.{' '}
-            <span className="text-slate-400">
+            <code className="font-body">data:application/pdf;base64,</code> prefix.{' '}
+            <span className="text-muted">
               Decoding runs 100% in your browser — your data is never sent anywhere.
             </span>
           </span>
